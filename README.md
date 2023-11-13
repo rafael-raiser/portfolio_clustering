@@ -74,37 +74,42 @@ redshift = redshift value based on the increase in wavelength
 
 *fiber_ID = fiber ID that identifies the fiber that pointed the light at the focal plane in each observation
 
-Em primeiro lugar, aplicamos a análise de componentes principais com variância explicada maior que 95%, o que reduziu as 8 medições físicas a 5 componentes principais. Um plot 3D das 3 primeiras PC's (Figure 3) mostra claramente a presença de um outlier, que foi identificado e removido. A análise foi então feita novamente (Figure 4), e as taxas de variância relativas das 5 PC's são
+Em primeiro lugar, aplicamos a análise de componentes principais com variância explicada maior que 95%, o que reduziu as 8 medições físicas a 5 componentes principais. Um plot 3D das 3 primeiras PC's (Figure 3) mostra claramente a presença de um outlier, que foi identificado e removido. A análise foi então feita novamente, e as taxas de variância relativas das 5 PC's são
 
 \[0.37797983, 0.28362062, 0.14261839, 0.10769035, 0.08348138\]
 
-![figure3](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/PCA_3D_outlier.png)
-![figure4](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/PCA_3D_cleaned.png)
+![figure3a](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/PCA_3D_outlier.png)
+![figure3b](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/PCA_3D_cleaned.png)
 
-(Figure 3: Plot of PC1, PC2 and PC3 before data cleaning)
+(Figure 3: Plot of PC1, PC2 and PC3 before (left) and after (right) data cleaning)
 
-(Figure 4: PC1, PC2 and PC3 of cleaned data)
+Para facilitar a visualização, plots 2D das PC1, PC2 e PC3 foram feitos com a identificação das 3 classes de objetos (Figure 4).
 
-Para facilitar a visualização, plots 2D das PC1, PC2 e PC3 foram feitos com a identificação das 3 classes de objetos (Figure 5).
+![figure4](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/PCA_2D_classes.png)
 
-![figure5](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/PCA_2D_classes.png)
-
-(Figure 5: 2D plots of PC1, PC2 and PC3 for different classes of stellar objects)
+(Figure 4: 2D plots of PC1, PC2 and PC3 for different classes of stellar objects)
 
 Por fim, aplicamos o método K-Means sobre o conjunto assumindo n_clusters=3. As frações de cada categoria de objeto nos clusters com label 0, 1 e 2 estão mostradas na Figura 6.
 
-![figure6](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/pie_charts_kmeans.png)
+![figure5](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/pie_charts_kmeans.png)
 
-(Figure 6: Distribution of the objects classes into each cluster)
+(Figure 5: Distribution of the objects classes into each cluster)
 
-![figure7](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/PCA_2D_clusters.png)
+![figure6](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/PCA_2D_clusters.png)
 
-(Figure 7: Principal Components divided according to the 3 clusters)
+Embora o algoritmo tenha sido capaz de resolver quasares (identificados no subset com label 1) dos demais objetos, a diferença entre estrelas e galáxias é pouco clara e estes objetos estão distribuídos nos subsets 0 e 2. Fisicamente falando, esta distinção faz sentido: enquanto estrelas e galáxias são mais ou menos frequentes em todas as idades do universo, os quasares eram muito mais abundantes em seu início e, portanto, são observados com redshift muito maior (ou seja, a maioria se encontra muito mais distante).
 
-Através da comparação entre as figuras 5 e 6, percebemos que o método de clustering não foi muito eficiente para separar estrelas de galáxias. De fato, 
+A similaridade das observações para estrelas e galáxias fica mais evidente ao compararmos as Figuras 4 e 6, que mostram as componentes principais dividas entre classes de objetos e clusters. Devido à proximidade dos pontos representando estrelas e galáxias, o algoritmo K-Means não foi capaz de resolver corretamente as duas categorias.
 
+(Figure 6: 2D plots of PC1, PC2 and PC3 for the 3 clusters)
 
-![figure8](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/scores_kmeans.png)
+Por fim, podemos avaliar o número ideal de clusters calculando o coeficiente de silhouette para n_clusters=2,3,4... (Figure 7). O coeficiente de silhouette (calculation details: [Wikipedia](https://en.wikipedia.org/wiki/Silhouette_(clustering)#:~:text=The%20silhouette%20value%20is%20a,poorly%20matched%20to%20neighboring%20clusters.)) é um número que varia de -1 até 1, com -1 indicando péssimo clustering e +1 clustering perfeito.
+
+Como a qualidade do clustering é proporcional ao coeficiente, podemos determinal a quantidade ideal de clusters observando o ponto onde a curva tem elbow shape, ou seja, n_clusters tal que o score para n_clusters+1 diminui drasticamente ou se mantém aproximadamente constante. Em nosso caso, este número é n_clusters=4.
+
+![figure7](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/scores_kmeans.png)
+
+(Figure 7: Silhouette score for n_cluster ranging from 2 to 7)
 
 
 
