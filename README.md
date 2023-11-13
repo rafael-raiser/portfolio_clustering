@@ -79,10 +79,9 @@ Em primeiro lugar, aplicamos a análise de componentes principais com variância
 \[0.37797983, 0.28362062, 0.14261839, 0.10769035, 0.08348138\]
 
 ![figure3](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/PCA_3D_outlier.png)
+![figure4](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/PCA_3D_cleaned.png)
 
 (Figure 3: Plot of PC1, PC2 and PC3 before data cleaning)
-
-![figure4](https://github.com/rafael-raiser/portfolio_clustering/blob/main/images/PCA_3D_cleaned.png)
 
 (Figure 4: PC1, PC2 and PC3 of cleaned data)
 
